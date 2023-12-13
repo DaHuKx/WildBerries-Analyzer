@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="WildBerriesAnalyzer.Modules.ActualDisconts.Views.ActualDiscontsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WildBerriesAnalyzer.Modules.ActualDisconts.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True" >
+    <UserControl.Resources>
+        <Style x:Key="{x:Type TextBlock}"
+               TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid Background="#2C0726"
+              Panel.ZIndex="2">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsDiscontsLoaded, UpdateSourceTrigger=PropertyChanged}"
+                                     Value="true">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <StackPanel Margin="50">
+                <TextBlock Text="Проверка актуальных скидок..."
+               Foreground="White"
+               HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True"
+                 Style="{StaticResource MaterialDesignCircularProgressBar}"
+                 Value="0"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Width="100"
+                 Margin="0, 10"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid>
+            <Label HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Content="Актуальных скидок сейчас нет."
+                   Foreground="White">
+
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsAnyDiscont, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="true">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+                
+            </Label>
+
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding Disconts}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <DataTemplate.Resources>
+                                <Style x:Key="{x:Type TextBlock}"
+                                       TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                </Style>
+                            </DataTemplate.Resources>
+                            
+                            <Border Margin="10">
+                                <DockPanel>
+                                    <Grid Width="150"
+                                          Height="200">
+                                        <Image Source="{Binding Product.ImageUrl, IsAsync=True}"
+                                               DockPanel.Dock="Left"
+                                               Panel.ZIndex="2"/>
+                                        <Border Background="Purple">
+                                            <materialDesign:PackIcon Kind="FileImageRemove"
+                                                                     Width="150"
+                                                                     Height="150"
+                                                                     HorizontalAlignment="Center"
+                                                                     VerticalAlignment="Center"
+                                                                     Foreground="White"/>
+                                        </Border>
+                                    </Grid>
+                                    <DockPanel Margin="10">
+                                        <TextBlock Text="{Binding Product.Name}"
+                                                   FontSize="17"
+                                                   FontWeight="Bold"
+                                                   DockPanel.Dock="Top"
+                                                   Margin="0, 0, 0, 10"/>
+                                        
+                                        <DockPanel DockPanel.Dock="Top">
+                                            <TextBlock Text="Текущая цена: "/>
+                                            <TextBlock Text="{Binding CurrentPrice}"
+                                                       FontWeight="Bold"/>
+                                            <TextBlock Text="р"/>
+                                        </DockPanel>
+
+                                        <DockPanel DockPanel.Dock="Top"
+                                                   Margin="0, 0, 0, 10">
+                                            <TextBlock Text="Дата фиксации: "/>
+                                            <TextBlock Text="{Binding CurrentCheckTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        </DockPanel>
+                                        
+                                        <DockPanel DockPanel.Dock="Top">
+                                            <TextBlock Text="Предыдущая цена: "/>
+                                            <TextBlock Text="{Binding LastPrice}"
+                                                       FontWeight="Bold"/>
+                                            <TextBlock Text="р"/>
+                                        </DockPanel>
+
+                                        <DockPanel DockPanel.Dock="Top">
+                                            <TextBlock Text="Дата фиксации: "/>
+                                            <TextBlock Text="{Binding LastCheckTime, StringFormat=dd.MM.yyyy HH:mm:ss}"/>
+                                        </DockPanel>
+
+                                        <DockPanel DockPanel.Dock="Top"
+                                                   Margin="0, 10">
+                                            <TextBlock Text="Размер скидки: "/>
+                                            <TextBlock Text="{Binding DiscontPercent, StringFormat=N0}"
+                                                       FontWeight="Bold"/>
+                                            <TextBlock Text="%"/>
+                                        </DockPanel>
+
+                                        <DockPanel DockPanel.Dock="Top">
+                                            <TextBlock Text="Ссылка: "/>
+                                            <TextBlock Text="{Binding Product.Link}"
+                                                       MouseDown="TextBlock_MouseDown"
+                                                       Cursor="Hand"
+                                                       Foreground="#FFA9179F"
+                                                       TextDecorations="Underline"/>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
