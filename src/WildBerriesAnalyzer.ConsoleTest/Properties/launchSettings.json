@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WildBerriesAnalyzer.ConsoleTest": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

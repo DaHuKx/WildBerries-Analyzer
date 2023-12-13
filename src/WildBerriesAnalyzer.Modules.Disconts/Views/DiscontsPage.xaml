@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="WildBerriesAnalyzer.Modules.Disconts.Views.DiscontsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WildBerriesAnalyzer.Modules.Disconts.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:components="clr-namespace:WildBerriesAnalyzer.PrismCore.Components;assembly=WildBerriesAnalyzer.PrismCore"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid>
+        <Grid Background="#2C0726"
+              Panel.ZIndex="2">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=DiscontsLoaded, UpdateSourceTrigger=PropertyChanged}"
+                              Value="true">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <StackPanel Margin="50">
+                <TextBlock Text="{Binding LoadingStatus, UpdateSourceTrigger=PropertyChanged}"
+                           Foreground="White"
+                           HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True"
+                             Style="{StaticResource MaterialDesignCircularProgressBar}"
+                             Value="0"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Top"
+                             Width="100"
+                             Margin="0, 10"/>
+            </StackPanel>
+        </Grid>
+        <DockPanel>
+            <Expander DockPanel.Dock="Top"
+                      Background="Transparent"
+                      Foreground="White"
+                      Padding="10">
+                <Expander.Header>
+                    <DockPanel>
+                        <TextBlock Text="Фильтрация"
+                                   FontSize="17"/>
+                        <materialDesign:PackIcon Kind="Filter"
+                                                 VerticalAlignment="Center"
+                                                 Margin="5, 0"/>
+                    </DockPanel>
+                </Expander.Header>
+                
+                <DockPanel VerticalAlignment="Center">
+                    <Expander Header="Фильтр по названию"
+                              DockPanel.Dock="Top"
+                              Background="Transparent"
+                              Foreground="White">
+                        <TextBox materialDesign:HintAssist.Hint="Название товара"
+                                 FontSize="17"
+                                 Margin="50, 0"
+                                 Text="{Binding FilteredName, Mode=TwoWay}"/>
+                    </Expander>
+
+                    <Expander Header="Фильтр по цене"
+                              Background="Transparent"
+                              Foreground="White"
+                              DockPanel.Dock="Top">
+                        <DockPanel Margin="50, 0"
+                                   VerticalAlignment="Center"
+                                   LastChildFill="False">
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Background="#2C0726"
+                                     materialDesign:HintAssist.Hint="Минимальная цена"
+                                     Text="{Binding MinPrice, Mode=TwoWay}"/>
+                            <TextBlock Text="-"
+                                       Margin="5, 0"
+                                       VerticalAlignment="Center"/>
+                            <TextBox materialDesign:HintAssist.Hint="Максимальная цена"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Background="#2C0726"
+                                     Text="{Binding MaxPrice, Mode=TwoWay}"/>
+                        </DockPanel>
+                    </Expander>
+
+                    <Button Content="Применить фильтры"
+                            DockPanel.Dock="Top"
+                            HorizontalAlignment="Right"
+                            Margin="0, 20, 50, 0"
+                            Command="{Binding ExecuteFiltersCommand}"/>
+                </DockPanel>
+            </Expander>
+
+
+            <ListView ItemsSource="{Binding PagesNumbers}"
+                      SelectedItem="{Binding SelectedPage}"
+                      DockPanel.Dock="Top"
+                      HorizontalAlignment="Center"
+                      Cursor="Hand">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding}"
+                               Foreground="White"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ScrollViewer CanContentScroll="False"
+                          DockPanel.Dock="Top">
+                <ItemsControl ItemsSource="{Binding ViewProducts}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:ProductCard Product="{Binding}"
+                                                    Margin="10"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</UserControl>

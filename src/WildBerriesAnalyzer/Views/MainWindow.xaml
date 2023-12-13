@@ -1,0 +1,204 @@
+﻿<Window x:Class="WildBerriesAnalyzer.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="WbAnalyzer" 
+        MinHeight="770"
+        MinWidth="800"
+        xmlns:core="clr-namespace:WildBerriesAnalyzer.Core;assembly=WildBerriesAnalyzer.PrismCore">
+    <Grid Background="#2C0726">
+        <materialDesign:DrawerHost LeftDrawerBackground="#2C0726">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel ScrollViewer.CanContentScroll="False"
+                           Margin="10">
+                        <DockPanel Margin="0,0,0,30"
+                                   LastChildFill="False"
+                                   DockPanel.Dock="Top">
+                            <TextBlock Text="Меню"
+                                       DockPanel.Dock="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"/>
+
+                            <Button Content="{materialDesign:PackIcon Kind=ArrowLeft,Size=32}"
+                                    Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                                    CommandParameter="{x:Static Dock.Left}"
+                                    Padding="-5"
+                                    HorizontalAlignment="Right"
+                                    Foreground="White"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    DockPanel.Dock="Right"/>
+                        </DockPanel>
+
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                Foreground="White"
+                                Height="100"
+                                Click="SearchProductsButtonClick"
+                                DockPanel.Dock="Top">
+                            <Button.Content>
+                                <DockPanel HorizontalAlignment="Center"
+                                           Margin="5">
+                                    <materialDesign:PackIcon Kind="Magnify"
+                                                             HorizontalAlignment="Center"
+                                                             DockPanel.Dock="Top"
+                                                             Width="32"
+                                                             Height="32"/>
+                                    <TextBlock Text="Поиск товара"
+                                               HorizontalAlignment="Center"/>
+                                </DockPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <Grid Height="1"
+                              Background="White"
+                              DockPanel.Dock="Top"/>
+
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                Foreground="White"
+                                Height="100"
+                                Margin="0, 10"
+                                Click="AddProductsButtonClick"
+                                DockPanel.Dock="Top">
+                            <Button.Content>
+                                <DockPanel HorizontalAlignment="Center"
+                                           Margin="5">
+                                    <materialDesign:PackIcon Kind="CartPlus"
+                                                             HorizontalAlignment="Center"
+                                                             DockPanel.Dock="Top"
+                                                             Width="32"
+                                                             Height="32"/>
+                                    <StackPanel>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Text="Добавление товаров"/>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Text="по названию"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                Foreground="White"
+                                Height="100"
+                                Margin="0, 10"
+                                Click="AddByIdButtonClick"
+                                DockPanel.Dock="Top">
+                            <Button.Content>
+                                <DockPanel HorizontalAlignment="Center"
+                                           Margin="5">
+                                    <materialDesign:PackIcon Kind="BagPersonalPlusOutline"
+                                                             HorizontalAlignment="Center"
+                                                             DockPanel.Dock="Top"
+                                                             Width="32"
+                                                             Height="32"/>
+                                    <StackPanel>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Text="Добавление товара"/>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Text="по артикулу"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <Grid Height="1"
+                              Background="White"
+                              DockPanel.Dock="Top"/>
+
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                Foreground="White"
+                                Height="100"
+                                Click="DiscontsButtonClick"
+                                DockPanel.Dock="Top">
+                            <Button.Content>
+                                <DockPanel HorizontalAlignment="Center"
+                                           Margin="5">
+                                    <materialDesign:PackIcon Kind="CartPercent"
+                                                             HorizontalAlignment="Center"
+                                                             DockPanel.Dock="Top"
+                                                             Width="32"
+                                                             Height="32"/>
+                                    <TextBlock Text="Лучшие скидки"
+                                               HorizontalAlignment="Center"/>
+                                </DockPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                Foreground="White"
+                                Height="100"
+                                Click="ActualDiscontsButtonClick"
+                                DockPanel.Dock="Top">
+                            <Button.Content>
+                                <DockPanel HorizontalAlignment="Center"
+                                           Margin="5">
+                                    <materialDesign:PackIcon Kind="WaterPercent"
+                                                             HorizontalAlignment="Center"
+                                                             DockPanel.Dock="Top"
+                                                             Width="32"
+                                                             Height="32"/>
+                                    <TextBlock Text="Актуальные скидки"
+                                               HorizontalAlignment="Center"/>
+                                </DockPanel>
+                            </Button.Content>
+                        </Button>
+
+                        <Image
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center"
+                           Height="80"
+                           MouseDown="Image_MouseDown"
+                           Cursor="Hand"
+                           DockPanel.Dock="Bottom"
+                           Margin="10" 
+                           Source="/Images/WildBerriesAnalyzerLogo.png"/>
+                    </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            
+            <DockPanel LastChildFill="True">
+                <Border DockPanel.Dock="Top"
+                        Background="#FF7F1472"
+                        Height="60">
+                    <Grid>
+                        <DockPanel LastChildFill="False"
+                                   Margin="10"
+                                   HorizontalAlignment="Left">
+                            <Button Content="{materialDesign:PackIcon Kind=Menu,Size=32}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Padding="-5"
+                                    Foreground="White"
+                                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                                    CommandParameter="{x:Static Dock.Left}"/>
+                        </DockPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+
+                            <StackPanel.Resources>
+                                <Style x:Key="{x:Type TextBlock}"
+                                       TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            
+                            <TextBlock Text="WBAnalyzer"
+                                       FontWeight="Bold"
+                                       FontSize="24"/>
+                            <TextBlock Text="/"
+                                       Margin="10"/>
+                            <TextBlock Text="Меню"
+                                       Name="LocationTextBlock"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MainContentRegion}"
+                                Opacity="{Binding Opacity}"/>
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </Grid>
+</Window>

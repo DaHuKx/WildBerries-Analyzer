@@ -1,0 +1,197 @@
+﻿<UserControl x:Class="WildBerriesAnalyzer.Modules.AddByName.Views.AddByNamePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WildBerriesAnalyzer.Modules.AddByName.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <DockPanel>
+            <Grid Background="#FF3D0A35"
+                  DockPanel.Dock="Top">
+                <DockPanel Margin="25">
+
+                    <Grid DockPanel.Dock="Right">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=CanSaveToDataBase, UpdateSourceTrigger=PropertyChanged}"
+                                                 Value="false">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+
+                        <Button Content="Сохранить продукты в базу данных"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                                Margin="0"
+                                Command="{Binding AddProductsInDataBaseCommand}"/>
+                    </Grid>
+
+                    <Button DockPanel.Dock="Right"
+                            Content="Добавить"
+                            Margin="10, 0"
+                            Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                            Height="auto"
+                            FontWeight="Bold"
+                            Command="{Binding SearchProductsCommand}"/>
+
+                    <TextBox materialDesign:HintAssist.Hint="Название товара"
+                             DockPanel.Dock="Right"
+                             Foreground="White"
+                             Background="Transparent"
+                             materialDesign:HintAssist.Background="#FF3D0A35"
+                             BorderBrush="#FF7F1472"
+                             IsEnabled="True"
+                             FontSize="16"
+                             VerticalAlignment="Center"
+                             KeyDown="TextBox_KeyDown"
+                             Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
+            </Grid>
+
+            <Grid DockPanel.Dock="Top"
+                  VerticalAlignment="Stretch"
+                  Height="auto">
+                <ScrollViewer CanContentScroll="False">
+                    <Grid>
+                        <ItemsControl ItemsSource="{Binding Products}"
+                                      HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <DataTemplate.Resources>
+                                        <Style x:Key="{x:Type TextBlock}"
+                                               TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontSize" Value="16"/>
+                                        </Style>
+                                    </DataTemplate.Resources>
+
+                                    <Grid Background="#FF1C0418"
+                                          Margin="50, 25, 50, 0">
+                                        <DockPanel Margin="10">
+                                            <Border Background="#FF7F1472">
+                                                <Grid>
+                                                    <Image Source="{Binding ImageUrl, IsAsync=True}"
+                                                           Width="200"
+                                                           Height="250"
+                                                           Panel.ZIndex="2"/>
+                                                    <materialDesign:PackIcon Kind="Image"
+                                                                             Width="150"
+                                                                             Height="200"
+                                                                             Foreground="White"
+                                                                             VerticalAlignment="Center"
+                                                                             HorizontalAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <DockPanel Margin="20,0"
+                                                       LastChildFill="True">
+                                                <DockPanel DockPanel.Dock="Top"
+                                                           HorizontalAlignment="Right">
+                                                    <TextBlock Text="Рейтинг: "/>
+                                                    <TextBlock Text="{Binding ReviewRating, StringFormat=N2}"/>
+                                                    <materialDesign:PackIcon Kind="Star"
+                                                                             Width="20"
+                                                                             Foreground="White"
+                                                                             VerticalAlignment="Center"/>
+                                                </DockPanel>
+
+                                                <DockPanel DockPanel.Dock="Top">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               TextWrapping="Wrap"
+                                                               Foreground="White"
+                                                               FontSize="20"
+                                                               FontWeight="Bold"/>
+                                                </DockPanel>
+
+                                                <DockPanel DockPanel.Dock="Top">
+                                                    <TextBlock Text="Артикул: "/>
+                                                    <TextBlock Text="{Binding IdInMarket}"/>
+                                                </DockPanel>
+
+                                                <DockPanel DockPanel.Dock="Top">
+                                                    <TextBlock Text="Бренд: "/>
+                                                    <TextBlock Text="{Binding Brand}"/>
+                                                </DockPanel>
+
+                                                <DockPanel DockPanel.Dock="Top">
+                                                    <TextBlock Text="Количество отзывов: "/>
+                                                    <TextBlock Text="{Binding FeedBacksCount}"/>
+                                                </DockPanel>
+
+                                                <DockPanel DockPanel.Dock="Top"
+                                                           Margin="0, 10, 0, 0">
+                                                    <TextBlock Text="Ссылка: "/>
+                                                    <TextBlock Text="{Binding Link}"
+                                                               MouseDown="TextBlock_MouseDown"
+                                                               Cursor="Hand"
+                                                               Foreground="#FFA9179F"
+                                                               TextDecorations="Underline"/>
+                                                </DockPanel>
+
+                                                <DockPanel VerticalAlignment="Bottom"
+                                                           HorizontalAlignment="Left"
+                                                           Margin="0, 0, 0, 10">
+                                                    <TextBlock Text="Цена: "/>
+                                                    <TextBlock Text="{Binding PriceFromInit.Price}"
+                                                               FontWeight="Bold"/>
+                                                    <TextBlock Text="р"
+                                                               FontWeight="Bold"/>
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </DockPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Grid Background="#2C0726"
+                              Panel.ZIndex="2">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsLoaded, UpdateSourceTrigger=PropertyChanged}"
+                                                     Value="true">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Grid Margin="50">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Status}"
+                                               Foreground="White"
+                                               FontSize="17"
+                                               HorizontalAlignment="Center"
+                                               Margin="0, 5"/>
+                                    <ProgressBar IsIndeterminate="True"
+                                                 Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                 Value="0"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Top"
+                                                 Width="100"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </DockPanel>
+        <materialDesign:Snackbar VerticalAlignment="Bottom"
+                                 Message="{Binding SnackBarMessage}"
+                                 IsActive="{Binding SnackBarShowed}"
+                                 Foreground="White"
+                                 Background="#FF7F1472"
+                                 FontWeight="Bold"
+                                 HorizontalContentAlignment="Center"/>
+    </Grid>
+</UserControl>

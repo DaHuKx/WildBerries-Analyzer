@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="WildBerriesAnalyzer.Modules.StartPage.Views.StartPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WildBerriesAnalyzer.Modules.StartPage.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style x:Key="{x:Type TextBlock}"
+               TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+            <DockPanel LastChildFill="False"
+                       HorizontalAlignment="Center">
+                <Image Source="/WildBerriesAnalyzer.Modules.StartPage;component/Images/WildBerriesAnalyzerLogo.png"
+                       Width="300"/>
+                <StackPanel VerticalAlignment="Center"
+                            Margin="10,0,0,0">
+                    <TextBlock Text="WBAnalyzer"
+                               FontSize="50"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="Анализатор и парсер WildBerries"
+                               FontSize="20"/>
+                </StackPanel>
+            </DockPanel>
+
+            <DockPanel HorizontalAlignment="Center"
+                       Margin="0, 40, 0, 0">
+                <TextBlock Text="Количество продуктов в базе данных: "
+                           FontSize="17"/>
+                <TextBlock Text="{Binding ProductsCount}"
+                           FontSize="17"/>
+            </DockPanel>
+
+            <DockPanel HorizontalAlignment="Center">
+                <TextBlock Text="Количество проверок в базе данных: "
+                           FontSize="17"/>
+                <TextBlock Text="{Binding HistoryPricesCount}"
+                           FontSize="17"/>
+            </DockPanel>
+
+            <DockPanel HorizontalAlignment="Center"
+                       LastChildFill="False"
+                       Margin="0,50,0,0">
+                <Image Source="/WildBerriesAnalyzer.Modules.StartPage;component/Images/VK Logo.png"
+                       Height="50"
+                       MouseDown="VkLogo_Click"
+                       Cursor="Hand"/>
+                <Image Source="/WildBerriesAnalyzer.Modules.StartPage;component/Images/github-mark-white.png"
+                       Height="50"
+                       MouseDown="GitHabLogo_Click"
+                       Cursor="Hand"
+                       Margin="30,0,0,0"/>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
